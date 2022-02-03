@@ -13,3 +13,13 @@ This is a library for robust, near real-time communication between two UART devi
 -remote modiule importing
 
 Usage: you can use all of parts of this library for your own projects. Please give us credits at least. We put a lot spare time in this. You are also welcome to contribute. Please fork and PR.
+
+Documentation
+=============
+
+The ``SimpleBleClient`` class
+*****************************
+.. autoclass:: uartremote.UartRemote
+    :members:
+    :undoc-members:
+    :show-inheritance:
