@@ -19,7 +19,7 @@ Documentation
 
 The ``SimpleBleClient`` class
 *****************************
-.. autoclass:: uartremote.UartRemote
+.. autoclass:: MicroPython.uartremote
     :members:
     :undoc-members:
     :show-inheritance:
