@@ -47,7 +47,7 @@ exclude_patterns = []
 #
 #html_theme = 'alabaster'
 
-autodoc_mock_imports = ["utime","uos"]
+autodoc_mock_imports = ["utime","uos","micropython","machine","busio","board","pybricks"]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
