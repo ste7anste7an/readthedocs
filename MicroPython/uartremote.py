@@ -20,6 +20,7 @@ _SPIKE=const(0x05)
 _MAC=const(0x06)
 _H7=const(0x07)
 _K210=const(0x08)
+_WIN32=const(0x09)
 
 platforms = {
     'linux':_EV3, # EV3. TODO This might not be precise enough for python3 running on Linux laptops
@@ -30,6 +31,7 @@ platforms = {
     'OpenMV3-M7':_H7,
     'LEGO Learning System Hub':_SPIKE,
     'darwin':_MAC,
+    'win32': _WIN32,
     'MaixPy':_K210,
 }
 _platform = platforms[sys.platform]
@@ -151,7 +153,7 @@ class UartRemote:
             self.uart.mode(1)
             sleep_ms(300)# wait for all duplex methods to appear
             self.uart.baud(baudrate) # set baud rate
-        elif _platform==_MAC: #cheat about linix E3
+        elif _platform==_MAC or _platform==_WIN32: #cheat about linix E3
             if type(port) == str: #should also check for '/tty'
                 self.port = port
                 self.uart = serial.Serial(port, baudrate, timeout=1)
