@@ -214,7 +214,7 @@ class UartRemote:
         :param command_function: The function to be added
         :type command_function: function
         :param format: The format for the return argments, can be `repr`, `raw` or a `struct.pack` format string
-        :type param_format: str
+        :type format: str
         :param name: Name of the function as stored in the `command` list. When empty, the name is the `repr(command_function)`
         :type name: str """
         if not name:
@@ -226,6 +226,7 @@ class UartRemote:
 
     @staticmethod
     def encode(cmd,*argv):
+        
         if argv:
             try:
                 f=argv[0]
