@@ -6,57 +6,6 @@ uartremote.py -- Robust comuiniation over UART
 
 This class implements methods that help to set up robust communication between instances running MicroPython which are connected over a UART interface.
 
-
-Example of code running on the master::
-
-    from machine import I2S
-    from machine import Pin
-
-    # ESP32
-    sck_pin = Pin(14)   # Serial clock output
-    ws_pin = Pin(13)    # Word clock output
-    sd_pin = Pin(12)    # Serial data output
-
-    or
-
-    # PyBoards
-    sck_pin = Pin("Y6")   # Serial clock output
-    ws_pin = Pin("Y5")    # Word clock output
-    sd_pin = Pin("Y8")    # Serial data output
-
-    audio_out = I2S(2,
-                    sck=sck_pin, ws=ws_pin, sd=sd_pin,
-                    mode=I2S.TX,
-                    bits=16,
-                    format=I2S.MONO,
-                    rate=44100,
-                    ibuf=20000)
-
-    audio_in = I2S(2,
-                   sck=sck_pin, ws=ws_pin, sd=sd_pin,
-                   mode=I2S.RX,
-                   bits=32,
-                   format=I2S.STEREO,
-                   rate=22050,
-                   ibuf=20000)
-
-Example of code running on the slave::
-
-    from machine import I2S
-    from machine import Pin
-
-    # ESP32
-    sck_pin = Pin(14)   # Serial clock output
-    ws_pin = Pin(13)    # Word clock output
-    sd_pin = Pin(12)    # Serial data output
-
-    or
-
-    # PyBoards
-    sck_pin = Pin("Y6")   # Serial clock output
-    ws_pin = Pin("Y5")    # Word clock output
-    sd_pin = Pin("Y8")    # Serial data output
-
 Platforms
 ---------
 
