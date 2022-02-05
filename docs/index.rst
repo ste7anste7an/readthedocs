@@ -21,14 +21,15 @@ Contents
 .. toctree::
    :maxdepth: 1
 
+   uartremote
    installation
    examples
-   uartremote
+   machine.I2S
     
 
 
 Indices and tables
-==================
+******************
 
 * :ref:`genindex`
 * :ref:`modindex`

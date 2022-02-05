@@ -18,7 +18,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Examples" href="examples.html" /> 
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Welcome to UartRemote documentation!" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,14 +38,15 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">uartremote.py – Robust comuiniation over UART</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#platforms">Platforms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#constructor">Constructor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#methods">Methods</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="machine.I2S.html">class I2S – Inter-IC Sound bus protocol</a></li>
 </ul>
 
         </div>
@@ -74,56 +76,6 @@
   <section id="uartremote-py-robust-comuiniation-over-uart">
 <span id="uartremote"></span><h1>uartremote.py – Robust comuiniation over UART<a class="headerlink" href="#uartremote-py-robust-comuiniation-over-uart" title="Permalink to this headline"></a></h1>
 <p>This class implements methods that help to set up robust communication between instances running MicroPython which are connected over a UART interface.</p>
-<p>Example of code running on the master:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">I2S</span>
-<span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Pin</span>
-
-<span class="c1"># ESP32</span>
-<span class="n">sck_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span>   <span class="c1"># Serial clock output</span>
-<span class="n">ws_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>    <span class="c1"># Word clock output</span>
-<span class="n">sd_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>    <span class="c1"># Serial data output</span>
-
-<span class="ow">or</span>
-
-<span class="c1"># PyBoards</span>
-<span class="n">sck_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s2">&quot;Y6&quot;</span><span class="p">)</span>   <span class="c1"># Serial clock output</span>
-<span class="n">ws_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s2">&quot;Y5&quot;</span><span class="p">)</span>    <span class="c1"># Word clock output</span>
-<span class="n">sd_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s2">&quot;Y8&quot;</span><span class="p">)</span>    <span class="c1"># Serial data output</span>
-
-<span class="n">audio_out</span> <span class="o">=</span> <span class="n">I2S</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span>
-                <span class="n">sck</span><span class="o">=</span><span class="n">sck_pin</span><span class="p">,</span> <span class="n">ws</span><span class="o">=</span><span class="n">ws_pin</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="n">sd_pin</span><span class="p">,</span>
-                <span class="n">mode</span><span class="o">=</span><span class="n">I2S</span><span class="o">.</span><span class="n">TX</span><span class="p">,</span>
-                <span class="n">bits</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
-                <span class="nb">format</span><span class="o">=</span><span class="n">I2S</span><span class="o">.</span><span class="n">MONO</span><span class="p">,</span>
-                <span class="n">rate</span><span class="o">=</span><span class="mi">44100</span><span class="p">,</span>
-                <span class="n">ibuf</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
-
-<span class="n">audio_in</span> <span class="o">=</span> <span class="n">I2S</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span>
-               <span class="n">sck</span><span class="o">=</span><span class="n">sck_pin</span><span class="p">,</span> <span class="n">ws</span><span class="o">=</span><span class="n">ws_pin</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="n">sd_pin</span><span class="p">,</span>
-               <span class="n">mode</span><span class="o">=</span><span class="n">I2S</span><span class="o">.</span><span class="n">RX</span><span class="p">,</span>
-               <span class="n">bits</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
-               <span class="nb">format</span><span class="o">=</span><span class="n">I2S</span><span class="o">.</span><span class="n">STEREO</span><span class="p">,</span>
-               <span class="n">rate</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span>
-               <span class="n">ibuf</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Example of code running on the slave:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">I2S</span>
-<span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Pin</span>
-
-<span class="c1"># ESP32</span>
-<span class="n">sck_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span>   <span class="c1"># Serial clock output</span>
-<span class="n">ws_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>    <span class="c1"># Word clock output</span>
-<span class="n">sd_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>    <span class="c1"># Serial data output</span>
-
-<span class="ow">or</span>
-
-<span class="c1"># PyBoards</span>
-<span class="n">sck_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s2">&quot;Y6&quot;</span><span class="p">)</span>   <span class="c1"># Serial clock output</span>
-<span class="n">ws_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s2">&quot;Y5&quot;</span><span class="p">)</span>    <span class="c1"># Word clock output</span>
-<span class="n">sd_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s2">&quot;Y8&quot;</span><span class="p">)</span>    <span class="c1"># Serial data output</span>
-</pre></div>
-</div>
 <section id="platforms">
 <h2>Platforms<a class="headerlink" href="#platforms" title="Permalink to this headline"></a></h2>
 <p>The following platforms are supported:</p>
@@ -200,7 +152,8 @@
 <p>For example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ur</span><span class="o">=</span><span class="n">UartRemote</span><span class="p">()</span>
 <span class="n">ur</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="s1">&#39;led_color&#39;</span><span class="p">,</span><span class="s1">&#39;4B&#39;</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
-<span class="c1"># will encode a command to remotely calls the function ``led_color`` where the values of the variables ``n,t,g,b`` are passed to that function.</span>
+<span class="c1"># will encode a command to remotely calls the function ``led_color``</span>
+<span class="c1"># where the values of the variables ``n,t,g,b`` are passed to that function.</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -214,14 +167,8 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="uartremote.UartRemote.call">
 <span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.call" title="Permalink to this definition"></a></dt>
-<dd><p>Sends a command to a remote host that is waiting for a call and will wait until an answer comes.
+<dd><p>Sends a command to a remote host that is waiting for a call and will wait until an answer comes back.
 Optionally a parameter <code class="docutils literal notranslate"><span class="pre">timeout=...</span></code> for the answer is self.timout, or passable as timeout=…</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
-<dd><p>If <code class="docutils literal notranslate"><span class="pre">wait</span></code> is True, this methods waits for the reception of a command, otherwise, it immediately starts receiving a command. Is the flag <code class="docutils literal notranslate"><span class="pre">check</span></code> is True, it checks for errors or for an <cite>ack</cite> of onother command. It then calls the function corresponding with the received command (prior set by <cite>add_command</cite>) and sends back the result of the executed function.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -250,12 +197,12 @@ Optionally a parameter <code class="docutils literal notranslate"><span class="p
 <dl class="py method">
 <dt class="sig sig-object py" id="uartremote.UartRemote.add_module">
 <span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">add_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.add_module" title="Permalink to this definition"></a></dt>
-<dd><p>Sends a command to the other side instructing it to import the module with name <code class="docutils literal notranslate"><span class="pre">module_name</span></code>. The <code class="docutils literal notranslate"><span class="pre">module_name</span></code> argument has type string. After importing the module, the remote side calls the function <cite>&lt;module&gt;.add_commands()</cite>. This is a function that you should add to the modules you want to remotely import. See for usage <cite>Loading remote modules</cite> <a href="#id1"><span class="problematic" id="id2">remotemodules_</span></a></p>
+<dd><p>Sends a command to the other side instructing it to import the module with name <code class="docutils literal notranslate"><span class="pre">module_name</span></code>. The <code class="docutils literal notranslate"><span class="pre">module_name</span></code> argument has type string. After importing the module, the remote side calls the function <cite>&lt;module&gt;.add_commands()</cite>. This is a function that you should add to the modules you want to remotely import. See for usage <a class="reference internal" href="examples.html#examples-load-module"><span class="std std-ref">Example load module</span></a>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">UartRemote.add_command(command_function,</span> <span class="pre">format=&quot;&quot;,</span> <span class="pre">name=None):</span></span></dt>
+<dt class="sig sig-object py" id="uartremote.UartRemote.add_command">
+<span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">add_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.add_command" title="Permalink to this definition"></a></dt>
 <dd><p>Adds a command <cite>command</cite> to the dictionary of <code class="docutils literal notranslate"><span class="pre">UartRemote.commands</span></code> together with a function name <code class="docutils literal notranslate"><span class="pre">command_function</span></code>. Optionally, if the <code class="docutils literal notranslate"><span class="pre">command_function</span></code> returns any parameters, the <code class="docutils literal notranslate"><span class="pre">format_string</span></code> describes the type of the returned parameters. If the <code class="docutils literal notranslate"><span class="pre">command_function</span></code> does not return a value, the <cite>format_string</cite> is ommited. The dictionary with commands is used by the <code class="docutils literal notranslate"><span class="pre">UartRemote.reply_command()</span></code> method to call the function as defined upon receiving a specific command. As an argument the <code class="docutils literal notranslate"><span class="pre">data</span></code> that is received is used.</p>
 <p>Below is an example of how to use the <code class="docutils literal notranslate"><span class="pre">add_command</span></code> method:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">example</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
@@ -272,7 +219,7 @@ Optionally a parameter <code class="docutils literal notranslate"><span class="p
 <dl class="py method">
 <dt class="sig sig-object py" id="uartremote.UartRemote.get_remote_commands">
 <span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">get_remote_commands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.get_remote_commands" title="Permalink to this definition"></a></dt>
-<dd><p>Returns an array containing the commands available by the remote uartremote. You will see a number of default built-in commands such as <cite>echo</cite>. This method can be used to query the commands that are added by remotely importing a new module.`Loading remote modules` <a href="#id3"><span class="problematic" id="id4">remotemodules_</span></a></p>
+<dd><p>Returns an array containing the commands available by the remote uartremote. You will see a number of default built-in commands such as <cite>echo</cite>. This method can be used to query the commands that are added by remotely importing a new module.  See for usage <a class="reference internal" href="examples.html#examples-load-module"><span class="std std-ref">Example load module</span></a>.</p>
 </dd></dl>
 
 </section>
@@ -282,7 +229,8 @@ Optionally a parameter <code class="docutils literal notranslate"><span class="p
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to UartRemote documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,13 +1,14 @@
 .. currentmodule:: uartremote
 .. _uartremote:
 
+##############################################
 uartremote.py -- Robust comuiniation over UART
-=================================================
+##############################################
 
 This class implements methods that help to set up robust communication between instances running MicroPython which are connected over a UART interface.
 
 Platforms
----------
+=========
 
 The following platforms are supported:
 
@@ -25,7 +26,7 @@ The following platforms are supported:
 These platforms are automatically detected by querying ``sys.platform``. Within ``uartremote.py`` these platforms are defined by the constants: ``_EV3,_SPIKE,_ESP8266,_ESP32,_ESP32_S2,_H7,_K210,_MAC,_WIN32``, respectively. There are small differences in the implementation of MicroPython for these platforms. The ``UartRemote`` takes these into account based on the platform type.
 
 Constructor
------------
+===========
 
 .. class:: UartRemote(port=0,baudrate=115200,timeout=1500,debug=False,rx_pin=18,tx_pin=19 )
 
@@ -53,7 +54,7 @@ Constructor
     
    
 Methods
--------
+=======
 
 .. method:: UartRemote.flush()
 
@@ -81,13 +82,8 @@ Methods
 
 .. method:: UartRemote.call(command, *type_data,**kwargs)
   
-  Sends a command to a remote host that is waiting for a call and will wait until an answer comes.
+  Sends a command to a remote host that is waiting for a call and will wait until an answer comes back.
   Optionally a parameter ``timeout=...`` for the answer is self.timout, or passable as timeout=...
-
-.. method:: UartRemote.call(wait=True,check=True)
-
-  If ``wait`` is True, this methods waits for the reception of a command, otherwise, it immediately starts receiving a command. Is the flag ``check`` is True, it checks for errors or for an `ack` of onother command. It then calls the function corresponding with the received command (prior set by `add_command`) and sends back the result of the executed function.
-
 
 .. method:: UartRemote.process_uart(self, sleep=-2)
 
@@ -96,7 +92,7 @@ Methods
 .. method:: UartRemote.reply_command(self, command, value)
 
   Processes the received command by calling the function with name `command(value)` and passes the arguments as defined in ``value``. The result of this function call is send back by calling the ``send_command(ack_command,result)`` method with  with the ``ack_command`` is the received command prepended with `ack_` and the result (if any) is the return value of the function formatted according to the functions format string.
-
+ 
 .. method:: UartRemote.loop()
 
   This is an endless loop around the ``process_uart`` method, replying on all incoming calls. The slave side instants typically has the following code running::
@@ -107,12 +103,10 @@ Methods
 
 .. method:: UartRemote.add_module(module_name)
 
-  Sends a command to the other side instructing it to import the module with name ``module_name``. The ``module_name`` argument has type string. After importing the module, the remote side calls the function `<module>.add_commands()`. This is a function that you should add to the modules you want to remotely import. See for usage `Loading remote modules` remotemodules_
+  Sends a command to the other side instructing it to import the module with name ``module_name``. The ``module_name`` argument has type string. After importing the module, the remote side calls the function `<module>.add_commands()`. This is a function that you should add to the modules you want to remotely import. See for usage :ref:`Example load module <examples_load_module>`.
 
 
-
-.. method:: UartRemote.add_command(command_function, format="", name=None):
-
+.. method:: UartRemote.add_command(command_function, format="", name=None)
 
   Adds a command `command` to the dictionary of ``UartRemote.commands`` together with a function name ``command_function``. Optionally, if the ``command_function`` returns any parameters, the ``format_string`` describes the type of the returned parameters. If the ``command_function`` does not return a value, the `format_string` is ommited. The dictionary with commands is used by the ``UartRemote.reply_command()`` method to call the function as defined upon receiving a specific command. As an argument the ``data`` that is received is used.
 
@@ -129,6 +123,7 @@ Methods
 
 .. method:: UartRemote.get_remote_commands()
 
-  Returns an array containing the commands available by the remote uartremote. You will see a number of default built-in commands such as `echo`. This method can be used to query the commands that are added by remotely importing a new module.`Loading remote modules` remotemodules_
+  Returns an array containing the commands available by the remote uartremote. You will see a number of default built-in commands such as `echo`. This method can be used to query the commands that are added by remotely importing a new module.  See for usage :ref:`Example load module <examples_load_module>`.
+
 
 
