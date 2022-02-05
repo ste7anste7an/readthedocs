@@ -24,8 +24,7 @@ Contents
    uartremote
    installation
    examples
-   machine.I2S
-    
+
 
 
 Indices and tables
