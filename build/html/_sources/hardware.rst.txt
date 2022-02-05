@@ -50,6 +50,10 @@ In the photo shown above, the major components and headers are shown. Below we b
 * Reset button
   This button is connected to the reset signal of the ESP32
 
+.. note::
+
+    The pinout and maping on ESP32 GPIO pins can be found in the :ref:`Pinout <pinout>`.
+
 USB connector
 -------------
 
@@ -90,8 +94,8 @@ Whe grouped the pins in 3 different regions. The yellow region for connecting se
 I2C Grove connector
 -------------------
 
-We use the standard grove connector that is used on many i2c sensors. M5Stack Units use them and can directly be connected to the board.
+We use the standard Grove connector that is used on many i2c sensors. M5Stack Units use them and can directly be connected to the board.
 
 .. image:: ../images/compressed/schematic_lmsesp32_grove_i2c.jpg
   :width: 1000
-  :alt: GPIO header
+  :alt: Grove i2c interface

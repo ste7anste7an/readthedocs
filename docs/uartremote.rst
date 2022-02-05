@@ -1,11 +1,11 @@
 .. currentmodule:: uartremote
 .. _uartremote:
 
-##############################################
-uartremote.py -- Robust comuiniation over UART
-##############################################
+##################
+UartRemote Library
+##################
 
-This class implements methods that help to set up robust communication between instances running MicroPython which are connected over a UART interface.
+This library implements a class with methods that help to set up robust communication between instances running MicroPython which are connected over a UART interface.
 
 Platforms
 =========
