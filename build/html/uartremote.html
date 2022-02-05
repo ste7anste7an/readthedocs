@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>uartremote.py – Robust comminiation over UART &mdash; readthedocs  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Examples" href="examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> readthedocs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">uartremote.py – Robust comminiation over UART</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#constructor">Constructor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">readthedocs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>uartremote.py – Robust comminiation over UART</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/uartremote.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="uartremote-py-robust-comminiation-over-uart">
+<h1>uartremote.py – Robust comminiation over UART<a class="headerlink" href="#uartremote-py-robust-comminiation-over-uart" title="Permalink to this headline"></a></h1>
+<p>This class implements methods that help to set up robust communication between instances running MicroPython which are connected over a serial link.</p>
+<p>This is a class used to communicate via REPL or some kind of RPC command loop with other devices over a UART interface.</p>
+<p>Example of code running on the master:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">I2S</span>
+<span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Pin</span>
+
+<span class="c1"># ESP32</span>
+<span class="n">sck_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span>   <span class="c1"># Serial clock output</span>
+<span class="n">ws_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>    <span class="c1"># Word clock output</span>
+<span class="n">sd_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>    <span class="c1"># Serial data output</span>
+
+<span class="ow">or</span>
+
+<span class="c1"># PyBoards</span>
+<span class="n">sck_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s2">&quot;Y6&quot;</span><span class="p">)</span>   <span class="c1"># Serial clock output</span>
+<span class="n">ws_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s2">&quot;Y5&quot;</span><span class="p">)</span>    <span class="c1"># Word clock output</span>
+<span class="n">sd_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s2">&quot;Y8&quot;</span><span class="p">)</span>    <span class="c1"># Serial data output</span>
+
+<span class="n">audio_out</span> <span class="o">=</span> <span class="n">I2S</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">sck</span><span class="o">=</span><span class="n">sck_pin</span><span class="p">,</span> <span class="n">ws</span><span class="o">=</span><span class="n">ws_pin</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="n">sd_pin</span><span class="p">,</span>
+                <span class="n">mode</span><span class="o">=</span><span class="n">I2S</span><span class="o">.</span><span class="n">TX</span><span class="p">,</span>
+                <span class="n">bits</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                <span class="nb">format</span><span class="o">=</span><span class="n">I2S</span><span class="o">.</span><span class="n">MONO</span><span class="p">,</span>
+                <span class="n">rate</span><span class="o">=</span><span class="mi">44100</span><span class="p">,</span>
+                <span class="n">ibuf</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+
+<span class="n">audio_in</span> <span class="o">=</span> <span class="n">I2S</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span>
+               <span class="n">sck</span><span class="o">=</span><span class="n">sck_pin</span><span class="p">,</span> <span class="n">ws</span><span class="o">=</span><span class="n">ws_pin</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="n">sd_pin</span><span class="p">,</span>
+               <span class="n">mode</span><span class="o">=</span><span class="n">I2S</span><span class="o">.</span><span class="n">RX</span><span class="p">,</span>
+               <span class="n">bits</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+               <span class="nb">format</span><span class="o">=</span><span class="n">I2S</span><span class="o">.</span><span class="n">STEREO</span><span class="p">,</span>
+               <span class="n">rate</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span>
+               <span class="n">ibuf</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Example of code running on the slave:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">I2S</span>
+<span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Pin</span>
+
+<span class="c1"># ESP32</span>
+<span class="n">sck_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span>   <span class="c1"># Serial clock output</span>
+<span class="n">ws_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>    <span class="c1"># Word clock output</span>
+<span class="n">sd_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>    <span class="c1"># Serial data output</span>
+
+<span class="ow">or</span>
+
+<span class="c1"># PyBoards</span>
+<span class="n">sck_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s2">&quot;Y6&quot;</span><span class="p">)</span>   <span class="c1"># Serial clock output</span>
+<span class="n">ws_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s2">&quot;Y5&quot;</span><span class="p">)</span>    <span class="c1"># Word clock output</span>
+<span class="n">sd_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s2">&quot;Y8&quot;</span><span class="p">)</span>    <span class="c1"># Serial data output</span>
+</pre></div>
+</div>
+<section id="constructor">
+<h2>Constructor<a class="headerlink" href="#constructor" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UartRemote">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UartRemote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">115200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx_pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">18</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tx_pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">19</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UartRemote" title="Permalink to this definition"></a></dt>
+<dd><p>Construct a UartRemote object on the port given by:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">port</span></code> identifies a port for using the UART.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">port</span></code> is board specific:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>SPIKE: port = : has one I2S bus with id=2.</p></li>
+<li><p>ESP8266: port = 0.</p></li>
+<li><p>ESP32: Use 1 for UART1.</p></li>
+</ul>
+</div></blockquote>
+<p>The followinf keyword-only parameters are supported:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sck</span></code> is a pin object for the serial clock line</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ws</span></code> is a pin object for the word select line</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sd</span></code> is a pin object for the serial data line</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mode</span></code> specifies receive or transmit</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bits</span></code> specifies sample size (bits), 16 or 32</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">format</span></code> specifies channel format, STEREO or MONO</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rate</span></code> specifies audio sampling rate (samples/s)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ibuf</span></code> specifies internal buffer length (bytes)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">port</span></code> is the hardware uart port used to by <cite>UartRemote</cite> class</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">baudrate</span></code> is the baudraste at which the UART communicates, defaults to 115200</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timeout</span></code> is the timeout (in ms) for waiting for data coming in on the UART, default to 1500</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">debug</span></code> is a Bollean flag to generate debug output, default to False</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rx_pin</span></code> is the : The pin on which the UART will receive information, default to 18</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tx_pin</span></code> is the pin on which the UART will receive information, default to 19</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline"></a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="I2S.init">
+<span class="sig-prename descclassname"><span class="pre">I2S.</span></span><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">...</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#I2S.init" title="Permalink to this definition"></a></dt>
+<dd><p>see Constructor for argument descriptions</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="I2S.deinit">
+<span class="sig-prename descclassname"><span class="pre">I2S.</span></span><span class="sig-name descname"><span class="pre">deinit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#I2S.deinit" title="Permalink to this definition"></a></dt>
+<dd><p>Deinitialize the I2S bus</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="I2S.readinto">
+<span class="sig-prename descclassname"><span class="pre">I2S.</span></span><span class="sig-name descname"><span class="pre">readinto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#I2S.readinto" title="Permalink to this definition"></a></dt>
+<dd><p>Read audio samples into the buffer specified by <code class="docutils literal notranslate"><span class="pre">buf</span></code>.  <code class="docutils literal notranslate"><span class="pre">buf</span></code> must support the buffer protocol, such as bytearray or array.
+“buf” byte ordering is little-endian.  For Stereo format, left channel sample precedes right channel sample. For Mono format,
+the left channel sample data is used.
+Returns number of bytes read</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="I2S.write">
+<span class="sig-prename descclassname"><span class="pre">I2S.</span></span><span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#I2S.write" title="Permalink to this definition"></a></dt>
+<dd><p>Write audio samples contained in <code class="docutils literal notranslate"><span class="pre">buf</span></code>. <code class="docutils literal notranslate"><span class="pre">buf</span></code> must support the buffer protocol, such as bytearray or array.
+“buf” byte ordering is little-endian.  For Stereo format, left channel sample precedes right channel sample. For Mono format,
+the sample data is written to both the right and left channels.
+Returns number of bytes written</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Ste7an.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
