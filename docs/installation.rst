@@ -9,8 +9,7 @@ Installation
 Micropython
 ===========
 
-The ``uartremote.py`` needs to be copied to the flash memory of the 
-
+The ``uartremote.py`` needs to be copied to the flash memory of the MicroPython platform. Depending on the platform used, this can be slightly different. Below you will find a description for the installation on the different platforms.
 
 ESP32
 =====
