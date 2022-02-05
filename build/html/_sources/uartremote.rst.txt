@@ -1,9 +1,11 @@
-uartremote.py -- Robust comminiation over UART
+.. currentmodule:: uartremote
+.. _uartremote:
+
+uartremote.py -- Robust comuiniation over UART
 =================================================
 
-This class implements methods that help to set up robust communication between instances running MicroPython which are connected over a serial link.
+This class implements methods that help to set up robust communication between instances running MicroPython which are connected over a UART interface.
 
-This is a class used to communicate via REPL or some kind of RPC command loop with other devices over a UART interface.
 
 Example of code running on the master::
 
@@ -55,10 +57,28 @@ Example of code running on the slave::
     ws_pin = Pin("Y5")    # Word clock output
     sd_pin = Pin("Y8")    # Serial data output
 
+Platforms
+---------
+
+The following platforms are supported:
+
+* Lego EV3
+* Lego Mindstroms Robot Inventor 51515
+* Lego SPIKE Prime
+* Espressif ESP8266
+* Espressif ESP32
+* Espressif ESP32-S2
+* OpenMV H7 and M7 (STM32 chipset)
+* MaixPy (K210 chipset)
+* Windows
+* Mac OSX
+
+These platforms are automatically detected by querying ``sys.platform``. Within ``uartremote.py`` these platforms are defined by the constants: ``_EV3,_SPIKE,_ESP8266,_ESP32,_ESP32_S2,_H7,_K210,_MAC,_WIN32``, respectively. There are small differences in the implementation of MicroPython for these platforms. The ``UartRemote`` takes these into account based on the platform type.
+
 Constructor
 -----------
 
-.. class:: UartRemote(port=0,baudrate=115200,timeout=1500,debug=False,rx_pin=18,tx_pin=19)
+.. class:: UartRemote(port=0,baudrate=115200,timeout=1500,debug=False,rx_pin=18,tx_pin=19 )
 
    Construct a UartRemote object on the port given by:
 
@@ -70,48 +90,95 @@ Constructor
      - ESP8266: port = 0.
      - ESP32: Use 1 for UART1.
 
-   The followinf keyword-only parameters are supported:
+   The following keyword arguments are supported on all platforms:
 
-     - ``sck`` is a pin object for the serial clock line
-     - ``ws`` is a pin object for the word select line
-     - ``sd`` is a pin object for the serial data line
-     - ``mode`` specifies receive or transmit
-     - ``bits`` specifies sample size (bits), 16 or 32
-     - ``format`` specifies channel format, STEREO or MONO
-     - ``rate`` specifies audio sampling rate (samples/s)
-     - ``ibuf`` specifies internal buffer length (bytes)
-   
-     - ``port`` is the hardware uart port used to by `UartRemote` class
-     - ``baudrate`` is the baudraste at which the UART communicates, defaults to 115200
-     - ``timeout`` is the timeout (in ms) for waiting for data coming in on the UART, default to 1500
-     - ``debug`` is a Bollean flag to generate debug output, default to False
+     - ``port`` is the hardware uart port used to by `UartRemote` class; for LEGO it indicated the harware port, i.e. "A"
+     - ``baudrate`` is the baudrate at which the UART communicates, defaults to 115200
+     - ``timeout`` is the timeout (in ms) for waiting for data coming in on the UART in the ``receive_command()``, default to 1500
+     - ``debug`` is a Boolean flag to generate debug output, default to False
 
+  Only for ESP32 platform:   
 
-     - ``rx_pin`` is the : The pin on which the UART will receive information, default to 18
+     - ``rx_pin`` is only used for ESP32 and indicates the  pin on which the UART will receive information, default to 18
      - ``tx_pin`` is the pin on which the UART will receive information, default to 19
     
    
 Methods
 -------
 
-.. method:: I2S.init(sck, ...)
+.. method:: UartRemote.flush()
 
-  see Constructor for argument descriptions
+  Flushes the read buffer, by reading all remaining bytes from the Uart.
 
-.. method:: I2S.deinit()
+.. method:: UartRemote.available()
 
-  Deinitialize the I2S bus
+  Return a non zero value if there is a received command available. Note: on the SPIKE prime, you should use the ``receive_command`` or the ``execute_command``, always with the parameter ``reply=False``, after using the ``available()`` method.
 
-.. method::  I2S.readinto(buf)
+.. method:: UartRemote.send_command(command,*type_data])
 
-  Read audio samples into the buffer specified by ``buf``.  ``buf`` must support the buffer protocol, such as bytearray or array.
-  "buf" byte ordering is little-endian.  For Stereo format, left channel sample precedes right channel sample. For Mono format,
-  the left channel sample data is used.
-  Returns number of bytes read
+  Sends a command ``command``. ``*type_data`` are a number of argument that consist of a type defintion ``t``, followed by one ore more variables of the type corresponding with the paramater ``t``.
 
-.. method::  I2S.write(buf)
+  For example::
 
-  Write audio samples contained in ``buf``. ``buf`` must support the buffer protocol, such as bytearray or array.
-  "buf" byte ordering is little-endian.  For Stereo format, left channel sample precedes right channel sample. For Mono format,
-  the sample data is written to both the right and left channels.
-  Returns number of bytes written
+    ur=UartRemote()
+    ur.send_command('led_color','4B',n,t,g,b)
+    # will encode a command to remotely calls the function ``led_color`` where the values of the variables ``n,t,g,b`` are passed to that function.
+
+
+.. method:: UartRemote.receive_command(wait=True)
+
+  Receives a command and returns a tuple ``(<command>, <data>)``.  If there is a failure, the ``<command>``  will be equal to `'err'`. If ``wait`` is True, the methods waits until it receives a command. 
+
+.. method:: UartRemote.call(command, *type_data,**kwargs)
+  
+  Sends a command to a remote host that is waiting for a call and will wait until an answer comes.
+  Optionally a parameter ``timeout=...`` for the answer is self.timout, or passable as timeout=...
+
+.. method:: UartRemote.call(wait=True,check=True)
+
+  If ``wait`` is True, this methods waits for the reception of a command, otherwise, it immediately starts receiving a command. Is the flag ``check`` is True, it checks for errors or for an `ack` of onother command. It then calls the function corresponding with the received command (prior set by `add_command`) and sends back the result of the executed function.
+
+
+.. method:: UartRemote.process_uart(self, sleep=-2)
+
+  Processes a remote call if there is any. Upon receiving a remote call, the command is processed and the result is send back by internally calling the ``reply_command`` method. Sleeps for ``sleep`` ms after every listen. This method is only used in a loop and is non-blocking (as not for the sleep period).
+ 
+.. method:: UartRemote.reply_command(self, command, value)
+
+  Processes the received command by calling the function with name `command(value)` and passes the arguments as defined in ``value``. The result of this function call is send back by calling the ``send_command(ack_command,result)`` method with  with the ``ack_command`` is the received command prepended with `ack_` and the result (if any) is the return value of the function formatted according to the functions format string.
+
+.. method:: UartRemote.loop()
+
+  This is an endless loop around the ``process_uart`` method, replying on all incoming calls. The slave side instants typically has the following code running::
+    
+    from uartremote import *
+    ur = UartRemote()
+    ur.loop() # wait for incoming commands
+
+.. method:: UartRemote.add_module(module_name)
+
+  Sends a command to the other side instructing it to import the module with name ``module_name``. The ``module_name`` argument has type string. After importing the module, the remote side calls the function `<module>.add_commands()`. This is a function that you should add to the modules you want to remotely import. See for usage `Loading remote modules` remotemodules_
+
+
+
+.. method:: UartRemote.add_command(command_function, format="", name=None):
+
+
+  Adds a command `command` to the dictionary of ``UartRemote.commands`` together with a function name ``command_function``. Optionally, if the ``command_function`` returns any parameters, the ``format_string`` describes the type of the returned parameters. If the ``command_function`` does not return a value, the `format_string` is ommited. The dictionary with commands is used by the ``UartRemote.reply_command()`` method to call the function as defined upon receiving a specific command. As an argument the ``data`` that is received is used.
+
+  Below is an example of how to use the ``add_command`` method::
+
+    def example(a,b):
+      # example function receiving two arguments and returning the sum of a and b
+
+      return (a+b)
+
+    ur.add_command(example,'f')
+
+  Here ``ur`` is the instantiation of the ``UartRemote`` class and the function ``example`` will return the sum as type float. 
+
+.. method:: UartRemote.get_remote_commands()
+
+  Returns an array containing the commands available by the remote uartremote. You will see a number of default built-in commands such as `echo`. This method can be used to query the commands that are added by remotely importing a new module.`Loading remote modules` remotemodules_
+
+

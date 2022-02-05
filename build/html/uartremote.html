@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>uartremote.py – Robust comminiation over UART &mdash; readthedocs  documentation</title>
+  <title>uartremote.py – Robust comuiniation over UART &mdash; readthedocs  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -37,8 +37,10 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">uartremote.py – Robust comminiation over UART</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">uartremote.py – Robust comuiniation over UART</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#platforms">Platforms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#constructor">Constructor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#methods">Methods</a></li>
 </ul>
@@ -59,7 +61,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>uartremote.py – Robust comminiation over UART</li>
+      <li>uartremote.py – Robust comuiniation over UART</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/uartremote.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -69,10 +71,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="uartremote-py-robust-comminiation-over-uart">
-<h1>uartremote.py – Robust comminiation over UART<a class="headerlink" href="#uartremote-py-robust-comminiation-over-uart" title="Permalink to this headline"></a></h1>
-<p>This class implements methods that help to set up robust communication between instances running MicroPython which are connected over a serial link.</p>
-<p>This is a class used to communicate via REPL or some kind of RPC command loop with other devices over a UART interface.</p>
+  <section id="uartremote-py-robust-comuiniation-over-uart">
+<span id="uartremote"></span><h1>uartremote.py – Robust comuiniation over UART<a class="headerlink" href="#uartremote-py-robust-comuiniation-over-uart" title="Permalink to this headline"></a></h1>
+<p>This class implements methods that help to set up robust communication between instances running MicroPython which are connected over a UART interface.</p>
 <p>Example of code running on the master:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">I2S</span>
 <span class="kn">from</span> <span class="nn">machine</span> <span class="kn">import</span> <span class="n">Pin</span>
@@ -123,12 +124,30 @@
 <span class="n">sd_pin</span> <span class="o">=</span> <span class="n">Pin</span><span class="p">(</span><span class="s2">&quot;Y8&quot;</span><span class="p">)</span>    <span class="c1"># Serial data output</span>
 </pre></div>
 </div>
+<section id="platforms">
+<h2>Platforms<a class="headerlink" href="#platforms" title="Permalink to this headline"></a></h2>
+<p>The following platforms are supported:</p>
+<ul class="simple">
+<li><p>Lego EV3</p></li>
+<li><p>Lego Mindstroms Robot Inventor 51515</p></li>
+<li><p>Lego SPIKE Prime</p></li>
+<li><p>Espressif ESP8266</p></li>
+<li><p>Espressif ESP32</p></li>
+<li><p>Espressif ESP32-S2</p></li>
+<li><p>OpenMV H7 and M7 (STM32 chipset)</p></li>
+<li><p>MaixPy (K210 chipset)</p></li>
+<li><p>Windows</p></li>
+<li><p>Mac OSX</p></li>
+</ul>
+<p>These platforms are automatically detected by querying <code class="docutils literal notranslate"><span class="pre">sys.platform</span></code>. Within <code class="docutils literal notranslate"><span class="pre">uartremote.py</span></code> these platforms are defined by the constants: <code class="docutils literal notranslate"><span class="pre">_EV3,_SPIKE,_ESP8266,_ESP32,_ESP32_S2,_H7,_K210,_MAC,_WIN32</span></code>, respectively. There are small differences in the implementation of MicroPython for these platforms. The <code class="docutils literal notranslate"><span class="pre">UartRemote</span></code> takes these into account based on the platform type.</p>
+</section>
 <section id="constructor">
 <h2>Constructor<a class="headerlink" href="#constructor" title="Permalink to this headline"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="UartRemote">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UartRemote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">115200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx_pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">18</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tx_pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">19</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UartRemote" title="Permalink to this definition"></a></dt>
-<dd><p>Construct a UartRemote object on the port given by:</p>
+<dt class="sig sig-object py" id="uartremote.UartRemote">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uartremote.</span></span><span class="sig-name descname"><span class="pre">UartRemote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">115200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx_pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">18</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tx_pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">19</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote" title="Permalink to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Construct a UartRemote object on the port given by:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">port</span></code> identifies a port for using the UART.</p></li>
 </ul>
@@ -140,22 +159,20 @@
 <li><p>ESP32: Use 1 for UART1.</p></li>
 </ul>
 </div></blockquote>
-<p>The followinf keyword-only parameters are supported:</p>
+<p>The following keyword arguments are supported on all platforms:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">sck</span></code> is a pin object for the serial clock line</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ws</span></code> is a pin object for the word select line</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">sd</span></code> is a pin object for the serial data line</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">mode</span></code> specifies receive or transmit</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">bits</span></code> specifies sample size (bits), 16 or 32</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">format</span></code> specifies channel format, STEREO or MONO</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">rate</span></code> specifies audio sampling rate (samples/s)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ibuf</span></code> specifies internal buffer length (bytes)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">port</span></code> is the hardware uart port used to by <cite>UartRemote</cite> class</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">baudrate</span></code> is the baudraste at which the UART communicates, defaults to 115200</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">timeout</span></code> is the timeout (in ms) for waiting for data coming in on the UART, default to 1500</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">debug</span></code> is a Bollean flag to generate debug output, default to False</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">rx_pin</span></code> is the : The pin on which the UART will receive information, default to 18</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">port</span></code> is the hardware uart port used to by <cite>UartRemote</cite> class; for LEGO it indicated the harware port, i.e. “A”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">baudrate</span></code> is the baudrate at which the UART communicates, defaults to 115200</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timeout</span></code> is the timeout (in ms) for waiting for data coming in on the UART in the <code class="docutils literal notranslate"><span class="pre">receive_command()</span></code>, default to 1500</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">debug</span></code> is a Boolean flag to generate debug output, default to False</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p>Only for ESP32 platform:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rx_pin</span></code> is only used for ESP32 and indicates the  pin on which the UART will receive information, default to 18</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">tx_pin</span></code> is the pin on which the UART will receive information, default to 19</p></li>
 </ul>
 </div></blockquote>
@@ -165,33 +182,97 @@
 <section id="methods">
 <h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline"></a></h2>
 <dl class="py method">
-<dt class="sig sig-object py" id="I2S.init">
-<span class="sig-prename descclassname"><span class="pre">I2S.</span></span><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">...</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#I2S.init" title="Permalink to this definition"></a></dt>
-<dd><p>see Constructor for argument descriptions</p>
+<dt class="sig sig-object py" id="uartremote.UartRemote.flush">
+<span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.flush" title="Permalink to this definition"></a></dt>
+<dd><p>Flushes the read buffer, by reading all remaining bytes from the Uart.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="I2S.deinit">
-<span class="sig-prename descclassname"><span class="pre">I2S.</span></span><span class="sig-name descname"><span class="pre">deinit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#I2S.deinit" title="Permalink to this definition"></a></dt>
-<dd><p>Deinitialize the I2S bus</p>
+<dt class="sig sig-object py" id="uartremote.UartRemote.available">
+<span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">available</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.available" title="Permalink to this definition"></a></dt>
+<dd><p>Return a non zero value if there is a received command available. Note: on the SPIKE prime, you should use the <code class="docutils literal notranslate"><span class="pre">receive_command</span></code> or the <code class="docutils literal notranslate"><span class="pre">execute_command</span></code>, always with the parameter <code class="docutils literal notranslate"><span class="pre">reply=False</span></code>, after using the <code class="docutils literal notranslate"><span class="pre">available()</span></code> method.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="I2S.readinto">
-<span class="sig-prename descclassname"><span class="pre">I2S.</span></span><span class="sig-name descname"><span class="pre">readinto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#I2S.readinto" title="Permalink to this definition"></a></dt>
-<dd><p>Read audio samples into the buffer specified by <code class="docutils literal notranslate"><span class="pre">buf</span></code>.  <code class="docutils literal notranslate"><span class="pre">buf</span></code> must support the buffer protocol, such as bytearray or array.
-“buf” byte ordering is little-endian.  For Stereo format, left channel sample precedes right channel sample. For Mono format,
-the left channel sample data is used.
-Returns number of bytes read</p>
+<dt class="sig sig-object py" id="uartremote.UartRemote.send_command">
+<span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">send_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">command,*type_data]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.send_command" title="Permalink to this definition"></a></dt>
+<dd><p>Sends a command <code class="docutils literal notranslate"><span class="pre">command</span></code>. <code class="docutils literal notranslate"><span class="pre">*type_data</span></code> are a number of argument that consist of a type defintion <code class="docutils literal notranslate"><span class="pre">t</span></code>, followed by one ore more variables of the type corresponding with the paramater <code class="docutils literal notranslate"><span class="pre">t</span></code>.</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ur</span><span class="o">=</span><span class="n">UartRemote</span><span class="p">()</span>
+<span class="n">ur</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="s1">&#39;led_color&#39;</span><span class="p">,</span><span class="s1">&#39;4B&#39;</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+<span class="c1"># will encode a command to remotely calls the function ``led_color`` where the values of the variables ``n,t,g,b`` are passed to that function.</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="I2S.write">
-<span class="sig-prename descclassname"><span class="pre">I2S.</span></span><span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#I2S.write" title="Permalink to this definition"></a></dt>
-<dd><p>Write audio samples contained in <code class="docutils literal notranslate"><span class="pre">buf</span></code>. <code class="docutils literal notranslate"><span class="pre">buf</span></code> must support the buffer protocol, such as bytearray or array.
-“buf” byte ordering is little-endian.  For Stereo format, left channel sample precedes right channel sample. For Mono format,
-the sample data is written to both the right and left channels.
-Returns number of bytes written</p>
+<dt class="sig sig-object py" id="uartremote.UartRemote.receive_command">
+<span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">receive_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.receive_command" title="Permalink to this definition"></a></dt>
+<dd><p>Receives a command and returns a tuple <code class="docutils literal notranslate"><span class="pre">(&lt;command&gt;,</span> <span class="pre">&lt;data&gt;)</span></code>.  If there is a failure, the <code class="docutils literal notranslate"><span class="pre">&lt;command&gt;</span></code>  will be equal to <cite>‘err’</cite>. If <code class="docutils literal notranslate"><span class="pre">wait</span></code> is True, the methods waits until it receives a command.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uartremote.UartRemote.call">
+<span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.call" title="Permalink to this definition"></a></dt>
+<dd><p>Sends a command to a remote host that is waiting for a call and will wait until an answer comes.
+Optionally a parameter <code class="docutils literal notranslate"><span class="pre">timeout=...</span></code> for the answer is self.timout, or passable as timeout=…</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
+<dd><p>If <code class="docutils literal notranslate"><span class="pre">wait</span></code> is True, this methods waits for the reception of a command, otherwise, it immediately starts receiving a command. Is the flag <code class="docutils literal notranslate"><span class="pre">check</span></code> is True, it checks for errors or for an <cite>ack</cite> of onother command. It then calls the function corresponding with the received command (prior set by <cite>add_command</cite>) and sends back the result of the executed function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uartremote.UartRemote.process_uart">
+<span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">process_uart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sleep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.process_uart" title="Permalink to this definition"></a></dt>
+<dd><p>Processes a remote call if there is any. Upon receiving a remote call, the command is processed and the result is send back by internally calling the <code class="docutils literal notranslate"><span class="pre">reply_command</span></code> method. Sleeps for <code class="docutils literal notranslate"><span class="pre">sleep</span></code> ms after every listen. This method is only used in a loop and is non-blocking (as not for the sleep period).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uartremote.UartRemote.reply_command">
+<span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">reply_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.reply_command" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the received command by calling the function with name <cite>command(value)</cite> and passes the arguments as defined in <code class="docutils literal notranslate"><span class="pre">value</span></code>. The result of this function call is send back by calling the <code class="docutils literal notranslate"><span class="pre">send_command(ack_command,result)</span></code> method with  with the <code class="docutils literal notranslate"><span class="pre">ack_command</span></code> is the received command prepended with <cite>ack_</cite> and the result (if any) is the return value of the function formatted according to the functions format string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uartremote.UartRemote.loop">
+<span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">loop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.loop" title="Permalink to this definition"></a></dt>
+<dd><p>This is an endless loop around the <code class="docutils literal notranslate"><span class="pre">process_uart</span></code> method, replying on all incoming calls. The slave side instants typically has the following code running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">uartremote</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">ur</span> <span class="o">=</span> <span class="n">UartRemote</span><span class="p">()</span>
+<span class="n">ur</span><span class="o">.</span><span class="n">loop</span><span class="p">()</span> <span class="c1"># wait for incoming commands</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uartremote.UartRemote.add_module">
+<span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">add_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.add_module" title="Permalink to this definition"></a></dt>
+<dd><p>Sends a command to the other side instructing it to import the module with name <code class="docutils literal notranslate"><span class="pre">module_name</span></code>. The <code class="docutils literal notranslate"><span class="pre">module_name</span></code> argument has type string. After importing the module, the remote side calls the function <cite>&lt;module&gt;.add_commands()</cite>. This is a function that you should add to the modules you want to remotely import. See for usage <cite>Loading remote modules</cite> <a href="#id1"><span class="problematic" id="id2">remotemodules_</span></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">UartRemote.add_command(command_function,</span> <span class="pre">format=&quot;&quot;,</span> <span class="pre">name=None):</span></span></dt>
+<dd><p>Adds a command <cite>command</cite> to the dictionary of <code class="docutils literal notranslate"><span class="pre">UartRemote.commands</span></code> together with a function name <code class="docutils literal notranslate"><span class="pre">command_function</span></code>. Optionally, if the <code class="docutils literal notranslate"><span class="pre">command_function</span></code> returns any parameters, the <code class="docutils literal notranslate"><span class="pre">format_string</span></code> describes the type of the returned parameters. If the <code class="docutils literal notranslate"><span class="pre">command_function</span></code> does not return a value, the <cite>format_string</cite> is ommited. The dictionary with commands is used by the <code class="docutils literal notranslate"><span class="pre">UartRemote.reply_command()</span></code> method to call the function as defined upon receiving a specific command. As an argument the <code class="docutils literal notranslate"><span class="pre">data</span></code> that is received is used.</p>
+<p>Below is an example of how to use the <code class="docutils literal notranslate"><span class="pre">add_command</span></code> method:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">example</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+  <span class="c1"># example function receiving two arguments and returning the sum of a and b</span>
+
+  <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
+
+<span class="n">ur</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">example</span><span class="p">,</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">ur</span></code> is the instantiation of the <code class="docutils literal notranslate"><span class="pre">UartRemote</span></code> class and the function <code class="docutils literal notranslate"><span class="pre">example</span></code> will return the sum as type float.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uartremote.UartRemote.get_remote_commands">
+<span class="sig-prename descclassname"><span class="pre">UartRemote.</span></span><span class="sig-name descname"><span class="pre">get_remote_commands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#uartremote.UartRemote.get_remote_commands" title="Permalink to this definition"></a></dt>
+<dd><p>Returns an array containing the commands available by the remote uartremote. You will see a number of default built-in commands such as <cite>echo</cite>. This method can be used to query the commands that are added by remotely importing a new module.`Loading remote modules` <a href="#id3"><span class="problematic" id="id4">remotemodules_</span></a></p>
 </dd></dl>
 
 </section>
