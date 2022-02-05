@@ -24,6 +24,7 @@ Contents
    uartremote
    installation
    examples
+   hardware
 
 
 
